@@ -37,6 +37,14 @@ public class Main {
             discount2 = 10;
         }
 
+        if (age<14){
+            System.out.println("Not eligible");
+            return;
+        } else if (age>=14 && age<18){
+            System.out.println("Requires tutor authorization");
+            return;
+        }
+
         System.out.println("\nEnter your height (meters): ");
         height = sc.nextDouble();
 
@@ -61,19 +69,19 @@ public class Main {
 
         bmi = weight/(height*height);
         if (bmi>=30){
-            showBMI = "Obesity";
+            showBMI = "OBESITY";
         }
 
         if (bmi>25 && bmi<29.9){
-            showBMI = "Overweight";
+            showBMI = "OVERWEIGHT";
         }
 
         if (bmi>18.5 && bmi<24.9){
-            showBMI = "Normal";
+            showBMI = "NORMAL";
         }
 
         if (bmi<=18.5){
-            showBMI = "Underweight";
+            showBMI = "UNDERWEIGHT";
         }
 
         double finalPrice;
