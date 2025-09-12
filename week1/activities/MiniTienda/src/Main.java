@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 
@@ -7,6 +8,7 @@ public class Main {
     static ArrayList<String> nameProducts = new ArrayList<>();
     static double[] prices = new double[0];
     static HashMap<String, Integer> stock = new HashMap<>();
+    private static double totalPurchases = 0;
 
     public static void main(String[] args) {
         int breakDoWhile = 0;
@@ -21,68 +23,103 @@ public class Main {
                             6. Exit with final receipt.""",
                     "Mini Tienda - Menu",
                     JOptionPane.PLAIN_MESSAGE);
+            if (optionMenu == null){
+                break;
+            }
 
             switch (optionMenu){
                 case "1":
                     createProduct();
+                    System.out.println(nameProducts);
+                    System.out.println(Arrays.toString(prices));
+                    System.out.println(stock);
+                    break;
+                case "2":
+                    listStock();
+                    break;
+                case "3":
+                    buyProduct();
+                    break;
+                case "6":
+                    breakDoWhile = 6;
                     break;
                 default:
                     JOptionPane.showMessageDialog(
                             null,
                             "Invalid option",
                             "Error",
-                            JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.ERROR_MESSAGE);
                     break;
             }
 
         } while (breakDoWhile != 6);
     }
 
+    // Método utilitario para agregar producto
     public static void addProduct(String name, double price, int amount){
         nameProducts.add(name);
-        prices = expandPrices(prices);
-        prices[prices.length-1] = price;
+        expandPrices(price);
         stock.put(name,amount);
     }
 
-    static double[] expandPrices(double[] pricesArray){
-        double [] newArrayPrices = new double[pricesArray.length + 1];
-
-        for (int i = 0; i < pricesArray.length+1; i++) {
-            newArrayPrices[i] = pricesArray[i];
+    // Método utilitario para expandir el array de precios
+    public static void expandPrices(double newPrice){
+        double [] newArrayPrices = new double[prices.length + 1];
+        for (int i = 0; i < prices.length; i++) {
+            newArrayPrices[i] = prices[i];
         }
-        return newArrayPrices;
+        newArrayPrices[prices.length] = newPrice;
+        prices = newArrayPrices;
     }
 
-    static int indexOfName(String name){
-
+    // Método utilitario para encontrar índice de nombre en ArrayList
+    public static int indexOfName(String name){
         for (int index = 0; index < nameProducts.size(); index++) {
-            if (nameProducts.get(index).equals(name)){
+            String nameProduct = nameProducts.get(index);
+            if (nameProduct.equals(name)){
                 return index;
             }
         }
-
-        return -1;
+        return -2;
     }
 
-    static void createProduct() {
-        String nameProduct = "";
-        double priceProduct = 0;
-        int amountProduct = 0;
-
-        try {
-        nameProduct = JOptionPane.showInputDialog(
+    public static void createProduct() {
+        double priceProduct;
+        int amountProduct;
+// ----------------------------- Name --------------------------------
+        String nameProduct = JOptionPane.showInputDialog(
                 null,
-                "Enter a product name",
+                "Enter the product's name",
                 "Product Name",
-                JOptionPane.PLAIN_MESSAGE).toLowerCase();
+                JOptionPane.PLAIN_MESSAGE);
 
-        if (indexOfName(nameProduct)!=-1){
-            JOptionPane.showMessageDialog(null,"Product exits");
+        if (nameProduct == null){
             return;
         }
 
+        nameProduct = nameProduct.toLowerCase();
 
+        // Verifica si lo ingresado esta vacio
+        if (nameProduct.trim().isEmpty()){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid product name",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Verificar si ya existe (no duplicados)
+        if (indexOfName(nameProduct)!=-2){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Product already exits",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+// ---------------------------- Price -----------------------------------
+        try{
             priceProduct = Double.parseDouble(
                     JOptionPane.showInputDialog(
                             null,
@@ -90,6 +127,24 @@ public class Main {
                             nameProduct.toUpperCase() + " Price",
                             JOptionPane.PLAIN_MESSAGE));
 
+            if (priceProduct<=0){
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Price must be positive number",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Enter a valid number",
+                    "Error",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+// -------------------------- Amount --------------------------------------
+        try {
             amountProduct = Integer.parseInt(
                     JOptionPane.showInputDialog(
                             null,
@@ -97,15 +152,162 @@ public class Main {
                             nameProduct.toUpperCase() + " Amount",
                             JOptionPane.PLAIN_MESSAGE));
 
-            System.out.println(nameProduct);
-            System.out.println(priceProduct);
-            System.out.println(amountProduct);
-            addProduct(nameProduct, priceProduct, amountProduct);
+            if (amountProduct<0){
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Amount must be positive number",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,"Enter a number","Error",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Enter a valid number",
+                    "Error",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+// --------------------- Add product ---------------------------
+        addProduct(nameProduct, priceProduct, amountProduct);
+        JOptionPane.showMessageDialog(
+                null,
+                "Product added successful",
+                "Successful",
+                JOptionPane.PLAIN_MESSAGE);
+    }
+
+    public static void listStock(){
+        if (nameProducts.isEmpty()){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Stock Empty",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
+        String listProducts = "";
+        for (int i = 0; i < nameProducts.size(); i++) {
 
+            String nameProduct = nameProducts.get(i);
+            double priceProduct = prices[i];
+            int stockProduct = stock.get(nameProduct);
 
+            listProducts += "PRODUCT: "+nameProduct.toUpperCase() + "\nPRICE: $"+priceProduct + "\nSTOCK: "+stockProduct+"\n-------------------------\n";
+        }
+        JOptionPane.showMessageDialog(
+                null,
+                listProducts,
+                "List Products",
+                JOptionPane.PLAIN_MESSAGE);
     }
+
+    public static void buyProduct(){
+        int amountProduct;
+
+        if (nameProducts.isEmpty()){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Stock Empty",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String nameProduct = JOptionPane.showInputDialog(
+                null,
+                "Enter the name of the product to buy",
+                "Product Name",
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (nameProduct == null){
+            return;
+        }
+        nameProduct = nameProduct.toLowerCase();
+
+        // Verifica si lo ingresado esta vacio
+        if (nameProduct.trim().isEmpty()){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid product name",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Verificar si hay producto
+        if (indexOfName(nameProduct)==-2){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Product no found",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+// -------------------------- Amount --------------------------------------
+        int currentStock = stock.get(nameProduct);
+        try {
+            amountProduct = Integer.parseInt(
+                    JOptionPane.showInputDialog(
+                            null,
+                             nameProduct.toUpperCase()+" STOCK: "+ currentStock +"\nEnter " + nameProduct.toUpperCase() + " amount to buy",
+                            nameProduct.toUpperCase() + " Amount",
+                            JOptionPane.PLAIN_MESSAGE));
+
+            if (amountProduct<0){
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Amount must be positive number",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Enter a valid number",
+                    "Error",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+// --------------------- Stock product ---------------------------
+
+        if (amountProduct>currentStock){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Insufficient stock",
+                    "Error",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+// --------------------- Buy product ---------------------------
+        int confirm = JOptionPane.showConfirmDialog(
+                null,
+                "Do you want to buy " + amountProduct + " units of " + nameProduct + " for $" + (prices[indexOfName(nameProduct)] * amountProduct) + "?",
+                "Confirmation",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            stock.put(nameProduct, currentStock - amountProduct);
+            totalPurchases += prices[indexOfName(nameProduct)] * amountProduct;
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Products bought successful",
+                    "Successful",
+                    JOptionPane.PLAIN_MESSAGE);
+        }
+    }
+
+
+
+
+
+// Final clase
 }
+
+
+
