@@ -1,4 +1,4 @@
-package CrudFrutas;
+package app.model;
 
 public class Fruit {
 
