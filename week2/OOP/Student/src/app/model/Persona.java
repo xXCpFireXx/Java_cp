@@ -1,5 +1,7 @@
 package app.model;
 
+import javax.swing.*;
+
 public class Persona {
     private String nombre;
     private byte edad;
@@ -25,5 +27,7 @@ public class Persona {
         this.edad = edad;
     }
 
-    public void mostrarInformacion(){}
+    public void mostrarInformacion(){
+        JOptionPane.showMessageDialog(null,"Nombre Persona: "+getNombre()+"\nEdad Persona: "+getEdad());
+    }
 }

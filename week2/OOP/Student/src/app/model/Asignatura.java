@@ -4,28 +4,27 @@ public class Asignatura {
     private String nombreAsignatura;
     private double nota;
 
-    public Asignatura(String nombreAsignatura, double nota) {
-        this.nombreAsignatura = nombreAsignatura;
+    public Asignatura(String nombre, double nota) {
+        this.nombreAsignatura = nombre;
         this.nota = nota;
-    }
-
-    public String estado(){
-        return "Aprobada";
     }
 
     public String getNombreAsignatura() {
         return nombreAsignatura;
     }
 
-    public void setNombreAsignatura(String nombreAsignatura) {
-        this.nombreAsignatura = nombreAsignatura;
-    }
-
     public double getNota() {
         return nota;
     }
 
-    public void setNota(double nota) {
-        this.nota = nota;
+    public String estado() {
+        String respuesta = "";
+
+        if (nota >= 3.5){
+            respuesta = "Aprobada";
+        } else if (nota < 3.5){
+            respuesta = "Reprobada";
+        }
+        return respuesta;
     }
 }
