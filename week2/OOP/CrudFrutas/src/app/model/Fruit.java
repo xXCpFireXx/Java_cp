@@ -78,12 +78,12 @@ public class Fruit {
 
     @Override
     public String toString() {
-        return "---- "+ name +" ----" +'\n' +
+        return "---- "+ name.toUpperCase() +" ----" +'\n' +
                 "ID: " + id +'\n' +
                 "Color: " + color + '\n' +
                 "Origin: " + origin + '\n' +
                 "Weight: " + weightKg +" Kg" +'\n' +
-                "Price: " + price + '\n' +
-                "Is Organic? " + isOrganic +'\n';
+                "Price: $" + price + '\n' +
+                "Is Organic? [" + isOrganic +"]\n";
     }
 }
