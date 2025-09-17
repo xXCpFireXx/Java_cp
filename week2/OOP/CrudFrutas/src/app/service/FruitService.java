@@ -14,6 +14,29 @@ public class FruitService {
 
     public void updateFruit(int IdFruit, int attribute) {
 
+        for (Fruit currentFruit : fruits) {
+            if (currentFruit.getId() == IdFruit) {
+                switch (attribute){
+                    case 1:
+
+                        currentFruit.setName("");
+
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                }
+            }
+        }
+
     }
 
     public void searchFruit(String nameFruit) {

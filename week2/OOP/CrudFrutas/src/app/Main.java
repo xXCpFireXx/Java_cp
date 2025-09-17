@@ -89,6 +89,7 @@ public class Main {
                             6. Is Organic?
                             Choose an attribute to update""");
 
+
                     fruit.updateFruit(IdFruit, attribute);
                     break;
                 case "5":
@@ -105,11 +106,6 @@ public class Main {
                             JOptionPane.ERROR_MESSAGE);
                     break;
             }
-
         }while (stopper!=6);
-
-
     }
-
-
 }
