@@ -16,7 +16,7 @@ public class Alumno extends Persona {
         }
 
         for (int i = 0; i < contadorAsignaturas; i++) {
-            if (asignaturas[i] != null && asignaturas[i].getNombreAsignatura().equals(asignatura.getNombreAsignatura())) {
+            if (asignaturas[i].getNombreAsignatura().equals(asignatura.getNombreAsignatura())) {
                 JOptionPane.showMessageDialog(null, "La asignatura " + asignatura.getNombreAsignatura() + " ya se registró para "+getNombre(),"Asignatura registrada",JOptionPane.WARNING_MESSAGE);
             }
         }
@@ -49,7 +49,7 @@ public class Alumno extends Persona {
 
         informacionStudiante.append("\n------ Asignaturas ------\n");
         for (int i = 0; i < contadorAsignaturas; i++) {
-            informacionStudiante.append(asignaturas[i].getNombreAsignatura()).append(": ").append(asignaturas[i].getNota()).append(" (").append(asignaturas[i].estado()).append(")\n");
+            informacionStudiante.append(asignaturas[i].getNombreAsignatura()).append(": ").append(asignaturas[i].getNota()).append(" --> [").append(asignaturas[i].estado()).append("]\n");
         }
 
         informacionStudiante.append(String.format("\nPromedio final: %.2f", calcularPromedio()));
