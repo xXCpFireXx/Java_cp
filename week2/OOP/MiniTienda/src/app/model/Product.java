@@ -10,7 +10,7 @@ public abstract class Product {
         this.price = price;
     }
 
-    public abstract void getDescription();
+    public abstract String getDescription();
 
     public String getName() {
         return name;
@@ -27,4 +27,5 @@ public abstract class Product {
     public void setPrice(double price) {
         this.price = price;
     }
+
 }

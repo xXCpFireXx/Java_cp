@@ -6,7 +6,7 @@ public class Food extends Product{
     }
 
     @Override
-    public void getDescription() {
-
+    public String getDescription() {
+        return "Food products are perishable\nitems meant for consumption, with expiration\ndates and specific storage needs.";
     }
 }

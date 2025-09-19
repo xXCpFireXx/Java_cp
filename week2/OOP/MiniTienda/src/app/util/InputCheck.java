@@ -81,6 +81,10 @@ public class InputCheck {
 
     // Displays an information message
     public static void showInfoMessage(String message, String title) {
-        JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
+    }
+
+    public static void showWarningMessage(String message, String title) {
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.WARNING_MESSAGE);
     }
 }

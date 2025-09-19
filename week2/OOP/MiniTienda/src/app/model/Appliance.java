@@ -6,7 +6,7 @@ public class Appliance extends Product{
     }
 
     @Override
-    public void getDescription() {
-
+    public String getDescription() {
+        return "Appliances are durable household devices\nthat assist with daily tasks,\noften requiring electricity or gas.";
     }
 }
