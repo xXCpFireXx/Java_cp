@@ -62,6 +62,7 @@ public class MiniStoreService implements IProduct {
 
         if (!stockPerName.containsKey(nameProduct)){
             showWarningMessage("Product no found","Error");
+            return;
         }
 
         int currentStock = stockPerName.get(nameProduct);
@@ -86,11 +87,9 @@ public class MiniStoreService implements IProduct {
             }
         }
 
-        int confirm = JOptionPane.showConfirmDialog(
-                null,
+        int confirm = requestConfirm(
                 "Do you want to buy " + amountProduct + " units of " + nameProduct + " for $" + String.format("%,10.2f", (priceProduct* amountProduct)) + "?",
-                "Confirmation",
-                JOptionPane.YES_NO_OPTION);
+                "Confirmation");
 
         if (confirm == JOptionPane.YES_OPTION) {
             stockPerName.put(nameProduct, currentStock - amountProduct);
@@ -98,9 +97,67 @@ public class MiniStoreService implements IProduct {
 
             showSuccessMessage("Products bought successful");
         }
+    }
 
+    @Override
+    public void showStatistics() {
+        if (listProducts.isEmpty()) {
+            showWarningMessage("The inventory is empty", "Inventory Empty");
+            return;
+        }
 
+        int maxPriceIndex = 0;
+        int minPriceIndex = 0;
+        double maxPrice = prices[0];
+        double minPrice = prices[0];
 
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > maxPrice) {
+                maxPrice = prices[i];
+                maxPriceIndex = i;
+            }
+            if (prices[i] < minPrice) {
+                minPrice = prices[i];
+                minPriceIndex = i;
+            }
+        }
 
+        Product mostExpensive = listProducts.get(maxPriceIndex);
+        Product leastExpensive = listProducts.get(minPriceIndex);
+
+        showSuccessMessage(String.format(
+                "Most Expensive Product: %s (Price: $%.2f)\nLeast Expensive Product: %s (Price: $%.2f)",
+                mostExpensive.getName(), mostExpensive.getPrice(),
+                leastExpensive.getName(), leastExpensive.getPrice()
+        ));
+    }
+
+    @Override
+    public void searchProduct(String nameProduct) {
+        nameProduct = nameProduct.toLowerCase();
+
+        StringBuilder productDetail = new StringBuilder();
+
+        for (Product product : listProducts){
+            String currentProduct = product.getName();
+            if (currentProduct.contains(nameProduct)){
+                String name = product.getName();
+                double priceProduct = product.getPrice();
+                int stockProduct = stockPerName.get(product.getName());
+
+                productDetail.append("PRODUCT: ").append(name.toUpperCase()).append("\nPRICE: $").append(String.format("%,10.2f", priceProduct)).append("\nSTOCK: ").append(stockProduct).append("\n-------------------------\n");
+            }else {
+                productDetail.append("Product no found");
+                break;
+            }
+        }
+
+        showInfoMessage(String.valueOf(productDetail),"Search");
+    }
+
+    @Override
+    public void exit() {
+        showInfoMessage("Total purchases in this session: $" + String.format("%,10.2f", totalPurchases),
+                "Final Ticket");
     }
 }

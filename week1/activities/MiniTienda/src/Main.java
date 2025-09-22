@@ -361,7 +361,7 @@ public class Main {
             return;
         }
 
-        String productDetail = "";
+        String productDetail = "";s
 
         for (int i = 0; i < nameProducts.size(); i++) {
             String currentProduct = nameProducts.get(i);

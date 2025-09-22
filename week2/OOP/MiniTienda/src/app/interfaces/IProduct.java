@@ -7,4 +7,7 @@ public interface IProduct {
     void addProduct(Product product, int stockProduct);
     void listProducts();
     void buyProduct(String nameProduct);
+    void showStatistics();
+    void searchProduct(String nameProduct);
+    void exit();
 }

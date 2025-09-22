@@ -43,16 +43,16 @@ public class Main {
                 case "3":
                     buyProductMenu(service);
                     break;
-//                case "4":
-//                    showStatistics();
-//                    break;
-//                case "5":
-//                    searchProduct();
-//                    break;
-//                case "6":
-//                    exit();
-//                    breakDoWhile = 6;
-//                    break;
+                case "4":
+                    service.showStatistics();
+                    break;
+                case "5":
+                    searchProductMenu(service);
+                    break;
+                case "6":
+                    service.exit();
+                    breakDoWhile = 6;
+                    break;
                 default:
                     InputCheck.showWarningMessage("Invalid option","Error");
                     break;
@@ -97,4 +97,10 @@ public class Main {
         service.buyProduct(name);
     }
 
+    public static void searchProductMenu(MiniStoreService service){
+        String nameProduct = InputCheck.requestString("Enter product name to search",
+                "Invalid product name");
+
+        service.searchProduct(nameProduct);
+    }
 }

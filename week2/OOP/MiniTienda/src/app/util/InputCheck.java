@@ -74,6 +74,17 @@ public class InputCheck {
         }
     }
 
+    public static int requestConfirm(String message, String errorMessage) {
+        while (true) {
+            int input = JOptionPane.showConfirmDialog(null, message, "Input", JOptionPane.YES_NO_OPTION);
+            try {
+                return validateInteger(String.valueOf(input), errorMessage);
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
     // Displays a success message
     public static void showSuccessMessage(String message) {
         JOptionPane.showMessageDialog(null, message, "Success", JOptionPane.INFORMATION_MESSAGE);
