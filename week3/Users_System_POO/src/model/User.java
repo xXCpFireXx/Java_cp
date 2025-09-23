@@ -1,5 +1,7 @@
 package model;
 
+import static utils.InputCheck.validateString;
+
 public abstract class User {
 
     private String name;
@@ -16,8 +18,7 @@ public abstract class User {
         this.status = status;
     }
 
-    public abstract void showProfile();
-    public abstract void roleDescription();
+    public abstract String showProfile();
 
     public String getName() {
         return name;
@@ -32,7 +33,7 @@ public abstract class User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = validateString(email,"Empty email");
     }
 
     public String getPassword() {

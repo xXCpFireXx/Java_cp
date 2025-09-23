@@ -1,5 +1,7 @@
 package model;
 
+import static utils.InputCheck.showInfoMessage;
+
 public class Customer extends User{
 
     private String telephone;
@@ -7,18 +9,15 @@ public class Customer extends User{
 
     public Customer(String name, String email, String password, String role, String status, String telephone, String address) {
         super(name, email, password, role, status);
-        this.telephone = telephone;
-        this.address = address;
+        setTelephone(telephone);
+        setAddress(address);
     }
 
     @Override
-    public void showProfile() {
-
-    }
-
-    @Override
-    public void roleDescription() {
-
+    public String showProfile() {
+        return "-------- " + getName().toUpperCase() + " --------\n" +
+                "Email: " + getEmail() + "\n" + "Telephone: " + getTelephone() + "\n" + "Address: " + getAddress() + "\n\n" +
+                "Role: " + getRole() + "\n" + "Status : " + getStatus()+"\n";
     }
 
     public String getTelephone() {
