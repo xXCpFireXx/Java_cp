@@ -5,8 +5,9 @@ import model.Customer;
 import model.User;
 import service.UserService;
 import utils.InputCheck;
-
+import utils.Validator;
 import javax.swing.*;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -51,6 +52,7 @@ public class Main {
                                     updateUserInfo(service);
                                     break;
                                 case "3":
+                                    service.logout();
                                     breakWhileUser = 3;
                                     break;
                                 default:
@@ -80,14 +82,17 @@ public class Main {
                                     service.listAllUsers();
                                     break;
                                 case "3":
+                                    blockUserMenu(service);
                                     break;
                                 case "4":
+                                    unblockUserMenu(service);
                                     break;
                                 case "5":
                                     InputCheck.showInfoMessage(service.getCurrentUser().showProfile(),
                                             service.getCurrentUser().getName().toUpperCase());
                                     break;
                                 case "6":
+                                    service.logout();
                                     breakWhileAdmin = 6;
                                     break;
                                 default:
@@ -142,10 +147,19 @@ public class Main {
                 "Enter user email",
                 "The email cannot be empty.");
 
+        if (!Validator.validateEmail(email)){
+            InputCheck.showWarningMessage("Invalid Email","Error");
+            return;
+        }
 
         String password = InputCheck.requestString(
                 "Enter the user password",
                 "The password cannot be empty.");
+
+        if (!Validator.validatePass(password)){
+            InputCheck.showWarningMessage("Invalid Password, Minimum 6 chars","Error");
+            return;
+        }
 
         String role;
         if (userType == 0){
@@ -181,15 +195,50 @@ public class Main {
                 option,
                 option[0]);
 
-//        String email = InputCheck.requestString(
-//                "Enter user email",
-//                "The email cannot be empty.");
-//
-//
-//        String password = InputCheck.requestString(
-//                "Enter the user password",
-//                "The password cannot be empty.");
-//
-//        service.login(email,password);
+        String telephone = "", address = "";
+        if (userType == 0){
+            telephone = InputCheck.requestString(
+                    "Enter new telephone",
+                    "The telephone cannot be empty");
+
+            service.updateUser(userType,telephone);
+        }
+
+        if (userType == 1){
+            address = InputCheck.requestString(
+                    "Enter new address",
+                    "The address cannot be empty");
+
+            service.updateUser(userType,address);
+        }
+
+        if (userType == 2){
+            telephone = InputCheck.requestString(
+                    "Enter new telephone",
+                    "The telephone cannot be empty");
+
+            address = InputCheck.requestString(
+                    "Enter new address",
+                    "The address cannot be empty");
+
+            service.updateUser(telephone,address);
+        }
+
+    }
+
+    public static void blockUserMenu(UserService service) {
+        String nameUser = InputCheck.requestString(
+                service.listUserName()+"\n\nEnter user name to block",
+                "The name cannot be empty.");
+
+        service.blockUser(nameUser);
+    }
+
+    public static void unblockUserMenu(UserService service) {
+        String nameUser = InputCheck.requestString(
+                service.listUserName()+"\n\nEnter user name to unblock",
+                "The name cannot be empty.");
+
+        service.unblockUser(nameUser);
     }
 }
