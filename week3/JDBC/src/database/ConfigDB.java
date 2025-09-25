@@ -24,4 +24,15 @@ public class ConfigDB {
         }
         return objConnection;
     }
+
+    public static void closeConnection(){
+        try {
+            if (objConnection != null){
+                objConnection.close();
+                System.out.println("DB successfully closed");
+            }
+        } catch (SQLException e){
+            System.out.println("Error "+ e.getMessage());
+        }
+    }
 }
