@@ -14,7 +14,8 @@ public class Main {
                     1. Create
                     2. List
                     3. Delete
-                    4. Exit
+                    4. Update
+                    5. Exit
                     """);
 
             switch (optionUser){
@@ -28,13 +29,14 @@ public class Main {
                     CoderController.delete();
                     break;
                 case "4":
+                    CoderController.update();
                     break;
                 default:
                     InputCheck.showWarningMessage("Invalid option","Error");
                     break;
             }
 
-        } while (!optionUser.equals("4"));
+        } while (!optionUser.equals("5"));
 
     }
 }

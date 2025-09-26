@@ -90,7 +90,33 @@ public class CoderModel implements Crud {
 
     @Override
     public boolean update(Object object) {
-        return false;
+        Coder coder = (Coder) object;
+
+        // Se abre la conexion
+        Connection connection = ConfigDB.openConnection();
+        boolean isUpdated = false;
+        try {
+            String sql = "UPDATE coder SET name = ?, age = ?, clan = ? WHERE id_coder = ?";
+            PreparedStatement objectPrepared = connection.prepareStatement(sql);
+
+            objectPrepared.setString(1,coder.getName());
+            objectPrepared.setInt(2,coder.getAge());
+            objectPrepared.setString(3, coder.getClan());
+            objectPrepared.setInt(4,coder.getId());
+
+            int result = objectPrepared.executeUpdate();
+
+            if (result > 0){
+                isUpdated = true;
+                InputCheck.showSuccessMessage("Coder was updated");
+            }
+
+        } catch (SQLException e){
+            System.out.println("Error: "+e.getMessage());
+        }
+
+        ConfigDB.closeConnection();
+        return isUpdated;
     }
 
     @Override
@@ -125,7 +151,7 @@ public class CoderModel implements Crud {
     public Coder findById(int id){
         // Se abre la conexion
         Connection connection = ConfigDB.openConnection();
-        Coder coder = new Coder();
+        Coder coder = null;
 
         try {
             String sql = "SELECT * FROM coder WHERE id_coder = ?";
@@ -136,6 +162,7 @@ public class CoderModel implements Crud {
             ResultSet objResult = objectPrepared.executeQuery();
 
             if (objResult.next()){
+                coder = new Coder();
                 coder.setId(objResult.getInt("id_coder"));
                 coder.setName(objResult.getString("name"));
                 coder.setAge(objResult.getInt("age"));
