@@ -3,6 +3,9 @@ import Entity.Product;
 import Model.ProductModel;
 import Utils.InputCheck;
 
+import javax.swing.*;
+import java.util.List;
+
 public class ProductController {
 
     public static void create(){
@@ -20,7 +23,7 @@ public class ProductController {
         Product.setPrice(price);
         Product.setStock(stock);
 
-        Product = (Product) ProductModel.insert(Product);
+        Product = ProductModel.insert(Product);
 
         InputCheck.showInfoMessage(Product.toString(),"Product");
     }
@@ -29,11 +32,61 @@ public class ProductController {
         ProductModel ProductModel = new ProductModel();
         StringBuilder listProducts = new StringBuilder();
 
-        for (Object i : ProductModel.findAll()){
-            Product objProduct = (Product) i;
-            listProducts.append(objProduct.toString()).append("\n");
+        for (Product i : ProductModel.findAll()){
+            listProducts.append(i.toString()).append("\n");
         }
         InputCheck.showInfoMessage(String.valueOf(listProducts),"List Products");
     }
 
+    public static void update(int i){
+        // Llamamos al modelo para acceder a los metodos
+        ProductModel ProductModel = new ProductModel();
+        getAll();
+
+        int idUpdate = InputCheck.requestInteger("Enter ID to update","ID must not be empty");
+        Product product = ProductModel.findById(idUpdate);
+
+        // condicional para verificar si existe
+        if (product == null){
+            InputCheck.showWarningMessage("Product not found","Product not found");
+        }else{
+            if (i==3){
+                product.setPrice( Double.parseDouble(JOptionPane.showInputDialog("Enter new product price", product.getPrice())));
+            }else {
+                product.setStock(Integer.parseInt(JOptionPane.showInputDialog("Enter new product stock", product.getStock())));
+            }
+            ProductModel.update(product);
+
+        }
+    }
+
+    public static void delete(){
+
+        ProductModel ProductModel = new ProductModel();
+        getAll();
+
+        int idDelete = InputCheck.requestInteger("Enter product ID to delete","ID must not be empty");
+        Product product = ProductModel.findById(idDelete);
+
+        if (product == null){
+            InputCheck.showWarningMessage("Product not found","Product not found");
+        }else{
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure?");
+            if (confirm == 0) ProductModel.delete(product);
+        }
+
+    }
+
+    public static void search(){
+        ProductModel ProductModel = new ProductModel();
+        StringBuilder listProducts = new StringBuilder();
+
+        String name = InputCheck.requestString("Enter product name to search","Name must not be empty");
+
+        // condicional para verificar si existe
+        for (Product i : ProductModel.findByName(name)){
+            listProducts.append(i.toString()).append("\n");
+        }
+        InputCheck.showInfoMessage(String.valueOf(listProducts),"List Products");
+    }
 }

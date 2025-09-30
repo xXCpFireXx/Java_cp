@@ -10,36 +10,35 @@ public class ConfigDB {
 
     public static Connection openConnection(){
 
-        try{
-            // Le damos las credenciales para nuestra bd
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String database = "mini_shop";
-            String url = "jdbc:mysql://localhost:3306/"+database;
-            String user = "root";
-            String password = "Qwe.123*";
+        try {
+            // Cargar el driver de PostgreSQL
+            Class.forName("org.postgresql.Driver");
 
-            // Establecemos la conexion
-            objConnection = (Connection) DriverManager.getConnection(url, user, password);
-            System.out.println("me conecté exitosamente");
+            // URL de conexión con pooling (ojo al puerto 6543)
+            String url = "jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:6543/postgres";
+            String user = "postgres.kykvcrzsqbqpdmoeqltr";  // 👈 este es tu usuario
+            String password = "Java*123";           // 👈 reemplázalo con el de tu Supabase
+
+            // Conexión
+            objConnection = DriverManager.getConnection(url, user, password);
+            System.out.println("Conectado a Supabase (pooling)");
 
         } catch (ClassNotFoundException error) {
-            System.out.println("driver no instalado"+ error.getMessage());
+            System.out.println("Driver PostgreSQL no encontrado: " + error.getMessage());
         } catch (SQLException error){
-            System.out.println("error al conectar el la base de datos"+ error.getMessage());
+            System.out.println("❌ Error al conectar: " + error.getMessage());
         }
-        return  objConnection;
-
-
+        return objConnection;
     }
 
     public static void closeConnection(){
-        try{
+        try {
             if (objConnection != null){
                 objConnection.close();
-                System.out.println("close succesfully");
+                System.out.println("🔒 Conexión cerrada");
             }
-        }catch (SQLException error){
-            System.out.println("Error"+ error.getMessage());
+        } catch (SQLException error){
+            System.out.println("❌ Error al cerrar conexión: " + error.getMessage());
         }
     }
 }

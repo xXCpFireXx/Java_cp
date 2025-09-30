@@ -25,12 +25,16 @@ public class Main {
                     ProductController.getAll();
                     break;
                 case "3":
+                    ProductController.update(3);
                     break;
                 case "4":
+                    ProductController.update(4);
                     break;
                 case "5":
+                    ProductController.delete();
                     break;
                 case "6":
+                    ProductController.search();
                     break;
                 case "7":
                     break;
