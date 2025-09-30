@@ -51,7 +51,7 @@ public class Product {
     public String toString() {
         return  "ID: " + id +
                 "\nNAME: " + name +
-                "\nPRICE: " + price +
+                "\nPRICE: $" +String.format("%,.2f",price) +
                 "\nSTOCK: " + stock+"\n";
     }
 }

@@ -8,6 +8,7 @@ import Utils.InputCheck;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductModel implements ICrud {
@@ -45,7 +46,34 @@ public class ProductModel implements ICrud {
 
     @Override
     public List<Object> findAll() {
-        return List.of();
+
+        List<Object> listProducts = new ArrayList<>();
+
+        Connection objConnection = ConfigDB.openConnection();
+        try {
+
+            String sql = "SELECT * FROM products";
+            // Usamos el preparedStatemend que me permite hacer la consulta
+            PreparedStatement objPrepare = objConnection.prepareStatement(sql);
+
+            ResultSet objResult = objPrepare.executeQuery();
+
+            while (objResult.next()){
+                Product objProduct = new Product();
+                objProduct.setId(objResult.getInt("id_product"));
+                objProduct.setName(objResult.getString("name_product"));
+                objProduct.setPrice(objResult.getDouble("price"));
+                objProduct.setStock(objResult.getInt("stock_product"));
+
+                listProducts.add(objProduct);
+            }
+            totalOperations++;
+        }catch (Exception error){
+            InputCheck.showWarningMessage(error.getMessage(),"Error");
+        }
+        ConfigDB.closeConnection();
+
+        return listProducts;
     }
 
     @Override

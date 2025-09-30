@@ -22,6 +22,7 @@ public class Main {
                     ProductController.create();
                     break;
                 case "2":
+                    ProductController.getAll();
                     break;
                 case "3":
                     break;

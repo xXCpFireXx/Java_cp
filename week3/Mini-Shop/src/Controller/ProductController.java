@@ -25,4 +25,15 @@ public class ProductController {
         InputCheck.showInfoMessage(Product.toString(),"Product");
     }
 
+    public static void getAll(){
+        ProductModel ProductModel = new ProductModel();
+        StringBuilder listProducts = new StringBuilder();
+
+        for (Object i : ProductModel.findAll()){
+            Product objProduct = (Product) i;
+            listProducts.append(objProduct.toString()).append("\n");
+        }
+        InputCheck.showInfoMessage(String.valueOf(listProducts),"List Products");
+    }
+
 }
