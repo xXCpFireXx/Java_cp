@@ -89,4 +89,9 @@ public class ProductController {
         }
         InputCheck.showInfoMessage(String.valueOf(listProducts),"List Products");
     }
+
+    public static void exit(){
+        ProductModel ProductModel = new ProductModel();
+        InputCheck.showInfoMessage("total number of transactions done during the session: "+ProductModel.getTotalOperations(),"Exit");
+    }
 }

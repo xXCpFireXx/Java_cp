@@ -14,7 +14,7 @@ public class Main {
                             4. Update stock.
                             5. Delete product.
                             6. Search for product by name.
-                            7. Exit with summary (number of operations performed)""".toUpperCase(),
+                            7. Exit with summary (number of operations done)""".toUpperCase(),
                     "Mini Shop - Menu".toUpperCase(),
                     JOptionPane.QUESTION_MESSAGE);
             switch (option){
@@ -37,6 +37,7 @@ public class Main {
                     ProductController.search();
                     break;
                 case "7":
+                    ProductController.exit();
                     break;
                 default:
                     InputCheck.showWarningMessage("Invalid option","Error");

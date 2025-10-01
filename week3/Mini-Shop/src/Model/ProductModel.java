@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductModel implements ICrud<Product> {
-    int totalOperations = 0;
+    private static int totalOperations = 0;
 
     @Override
     public Product insert(Product product) {
@@ -167,4 +167,7 @@ public class ProductModel implements ICrud<Product> {
         return listProductsSearched;
     }
 
+    public int getTotalOperations() {
+        return totalOperations;
+    }
 }
